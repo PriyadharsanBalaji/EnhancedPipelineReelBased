@@ -57,8 +57,24 @@ def merge_scene_audio_video(
                 combined_clips[scene_id] = str(output_clip)
             else:
                 combined_clips[scene_id] = video_path
+        elif Path(video_path).exists():
+            # Add a silent audio track so concat demuxer doesn't fail/drop audio
+            cmd = [
+                ffmpeg, "-y",
+                "-i", video_path,
+                "-f", "lavfi", "-i", "anullsrc=channel_layout=stereo:sample_rate=44100",
+                "-c:v", "copy",
+                "-c:a", "aac",
+                "-shortest",
+                str(output_clip),
+            ]
+            result = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
+            if result.returncode == 0 and output_clip.exists():
+                combined_clips[scene_id] = str(output_clip)
+            else:
+                combined_clips[scene_id] = video_path
         else:
-            combined_clips[scene_id] = video_path
+            continue
 
     print(f"[Assembler] ✓ {len(combined_clips)} video+audio clips ready")
     return combined_clips
@@ -84,7 +100,8 @@ def assemble_video(
     Returns:
         Path to final output video
     """
-    crossfade = crossfade if crossfade is not None else CROSSFADE_DURATION
+    # Force disable crossfade for now, as FFmpeg xfade filter complex strips audio tracks
+    crossfade = 0
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
