@@ -40,7 +40,7 @@ Google Colab provides free T4 GPUs (15 GB VRAM) which easily run `qwen2.5:14b` a
 
 ### 2. Install Python Libraries
 ```bash
-!pip install manim pymupdf ollama
+!pip install manim pymupdf ollama edge-tts gTTS
 ```
 
 ### 3. Install & Start Ollama Server
