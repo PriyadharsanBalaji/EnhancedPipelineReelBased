@@ -193,30 +193,29 @@ def analyze_chapter(
 
 def _validate_analysis(analysis: dict) -> None:
     """Validate the analysis has required fields."""
-    required = ("core_concepts", "worked_examples", "chapter_flow")
+    required = ("core_concepts_intuition", "mind_blowing_hooks", "chapter_flow")
     for key in required:
         if key not in analysis:
             raise ValueError(f"Analysis missing required field: '{key}'")
 
-    if len(analysis.get("core_concepts", [])) < 3:
-        print(f"[Analyzer] WARNING: Only {len(analysis.get('core_concepts', []))} core concepts found — expected more")
+    if len(analysis.get("core_concepts_intuition", [])) < 3:
+        print(f"[Analyzer] WARNING: Only {len(analysis.get('core_concepts_intuition', []))} core concepts found — expected more")
 
-    if len(analysis.get("worked_examples", [])) < 3:
-        print(f"[Analyzer] WARNING: Only {len(analysis.get('worked_examples', []))} examples found — expected more")
+    if len(analysis.get("mind_blowing_hooks", [])) < 3:
+        print(f"[Analyzer] WARNING: Only {len(analysis.get('mind_blowing_hooks', []))} hooks found — expected more")
 
 
 def _print_summary(analysis: dict) -> None:
     """Print a summary of the analysis."""
     print(f"\n{'='*60}")
-    print(f"  Deep Analysis Complete")
+    print(f"  Deep Analysis Complete (Curiosity Mode)")
     print(f"{'='*60}")
     print(f"  Chapter:        {analysis.get('chapter_title', 'Unknown')}")
-    print(f"  Core concepts:  {len(analysis.get('core_concepts', []))}")
-    print(f"  History events: {len(analysis.get('ancient_history', []))}")
-    print(f"  Misconceptions: {len(analysis.get('misconceptions', []))}")
+    print(f"  Core Intuitions:{len(analysis.get('core_concepts_intuition', []))}")
+    print(f"  Mind-Blowing:   {len(analysis.get('mind_blowing_hooks', []))}")
+    print(f"  Misconceptions: {len(analysis.get('misconceptions_debunked', []))}")
     print(f"  Fun facts:      {len(analysis.get('fun_facts', []))}")
-    print(f"  Tricks:         {len(analysis.get('tricks_and_shortcuts', []))}")
-    print(f"  Examples:       {len(analysis.get('worked_examples', []))}")
+    print(f"  Magic Tricks:   {len(analysis.get('magic_tricks_and_shortcuts', []))}")
     print(f"  Chapter flow:   {len(analysis.get('chapter_flow', []))} steps")
     print(f"{'='*60}\n")
 
