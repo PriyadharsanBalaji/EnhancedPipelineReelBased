@@ -27,12 +27,13 @@ def run_pipeline(
     quality: str = None,
     storyboard_model: str = None,
     manim_model: str = None,
+    base_dir_override: str = None,
 ) -> dict:
     """
     End-to-end pipeline: PDF → educational Manim video (30-60 min).
 
     Args:
-        pdf_path:         Path to the input PDF file
+        pdf_path:         Path to the input PDF file (can be dummy if base_dir_override provided and json exists)
         output_name:      Slug for output directory (auto-derived from PDF name if None)
         target_minutes:   Target video duration in minutes (30-60)
         resume:           Resume from existing state if interrupted
@@ -41,6 +42,7 @@ def run_pipeline(
         quality:          Manim render quality (l/m/h/k)
         storyboard_model: Override storyboard LLM model name
         manim_model:      Override manim-coder model name
+        base_dir_override: Override output base directory (used for chunking)
 
     Returns:
         Dict with pipeline results
@@ -48,14 +50,18 @@ def run_pipeline(
     quality = quality or MANIM_QUALITY
     pdf_path = Path(pdf_path)
 
-    if not pdf_path.exists():
+    if not base_dir_override and not pdf_path.exists():
         raise FileNotFoundError(f"PDF not found: {pdf_path}")
 
     if not output_name:
         output_name = pdf_path.stem.lower().replace(" ", "_")
 
     # ── Directory setup ──────────────────────────────────────────────────────
-    base_dir = Path(DEFAULT_OUTPUT_DIR) / output_name
+    if base_dir_override:
+        base_dir = Path(base_dir_override)
+    else:
+        base_dir = Path(DEFAULT_OUTPUT_DIR) / output_name
+        
     scenes_dir = base_dir / "scenes"
     renders_dir = base_dir / "renders"
     audio_dir = base_dir / "audio"

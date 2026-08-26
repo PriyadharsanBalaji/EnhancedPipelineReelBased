@@ -78,20 +78,17 @@ def main():
         start_time = time.time()
         
         try:
-            # We use default arguments. 
-            # You can change target_minutes or quality by editing these parameters.
-            result = run_pipeline(
-                pdf_path=str(pdf_path),
-                output_name=pdf_path.stem.lower().replace(" ", "_"),
-                target_minutes=45,       # default target
-                resume=True,             # resume if interrupted
-                plan_only=False,         # full run
-                start_stage=0,           # from beginning (will skip completed due to resume=True)
-                quality="m",             # medium quality 720p
-            )
+            cmd = ["python", "run.py", "--pdf", str(pdf_path), "--whole-book"]
+            
+            # Use subprocess to run the V2 run.py which handles all the chunking internally
+            process = subprocess.run(cmd)
+            
             elapsed = time.time() - start_time
-            print(f"\n✅ Successfully processed {pdf_path.name} in {elapsed/60:.1f} minutes")
-            successes.append(pdf_path.name)
+            if process.returncode == 0:
+                print(f"\n✅ Successfully processed {pdf_path.name} in {elapsed/60:.1f} minutes")
+                successes.append(pdf_path.name)
+            else:
+                raise RuntimeError(f"Pipeline failed with exit code {process.returncode}")
             
         except Exception as e:
             elapsed = time.time() - start_time
