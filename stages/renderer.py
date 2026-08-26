@@ -69,10 +69,11 @@ def render_all_scenes(
         manim_exe = venv_dir / "bin" / "manim"
 
     if not manim_exe.exists():
-        manim_exe = "manim"  # Fall back to system manim
-        print(f"[Renderer] Using system manim (venv manim not found)")
+        manim_exe_cmd = [sys.executable, "-m", "manim"]  # Fall back to python module to bypass PATH issues
+        print(f"[Renderer] Using system python manim module")
     else:
-        print(f"[Renderer] Using venv manim: {manim_exe}")
+        manim_exe_cmd = [str(manim_exe)]
+        print(f"[Renderer] Using venv manim: {manim_exe_cmd[0]}")
 
     rendered = {}
     total = len(scene_files)
@@ -93,7 +94,7 @@ def render_all_scenes(
         print(f"\n  [{scene_id_padded}/{total:03d}] Rendering...")
 
         success = _render_scene(
-            manim_exe=str(manim_exe),
+            manim_exe_cmd=manim_exe_cmd,
             py_path=py_path,
             scene_id_padded=scene_id_padded,
             output_dir=output_dir,
@@ -121,7 +122,7 @@ def render_all_scenes(
 
 
 def _render_scene(
-    manim_exe: str,
+    manim_exe_cmd: list,
     py_path: str,
     scene_id_padded: str,
     output_dir: Path,
@@ -139,8 +140,7 @@ def _render_scene(
             abs_py_path = str(Path(current_py).resolve())
             abs_media_dir = str(Path(output_dir / "media").resolve())
 
-            cmd = [
-                manim_exe,
+            cmd = manim_exe_cmd + [
                 "render",
                 quality_flag,
                 "--media_dir", abs_media_dir,
