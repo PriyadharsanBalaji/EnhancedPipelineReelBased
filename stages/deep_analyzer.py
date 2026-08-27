@@ -74,10 +74,10 @@ Return this EXACT JSON structure:
         }}
     ],
 
-    "fun_facts": [
+    "real_world_application": [
         {{
-            "fact": "A genuinely surprising, kid-friendly fact",
-            "wow_factor": "Why this is mind-blowing"
+            "application": "A mind-blowing way this exact math is used in the real world (e.g., video game physics, black holes)",
+            "wow_factor": "Why this will make the kid think this math is super cool"
         }}
     ],
 
@@ -90,16 +90,16 @@ Return this EXACT JSON structure:
     ],
 
     "chapter_flow": [
-        "Ordered list of topics as they should be taught for maximum curiosity and engagement"
+        "Ordered list of concepts as they should be taught for maximum continuity and engagement"
     ]
 }}
 
 CRITICAL INSTRUCTIONS:
-- NO BORING HISTORY. Skip all ancient origins. We want modern, punchy, exciting content.
+- NO BORING HISTORY. Skip all ancient origins, names of mathematicians, and dates. Focus strictly on mind-blowing conceptual logic and modern real-world physics/games.
 - For mind_blowing_hooks: Include AT LEAST 3 amazing hooks.
 - For core_concepts_intuition: Cover EVERY concept but explain it like a magic trick or game mechanic.
 - For visual_idea fields: Be SPECIFIC about Manim objects (Circle, VGroup, MathTex, NumberLine). Explicitly mention dynamic emphasis (bulging, scaling, wiggling, glowing) for important elements.
-- Make everything highly accessible, intellectually stimulating, and FUN for a child."""
+- Make everything highly accessible, intellectually stimulating, fast-paced, and FUN for a child."""
 
 
 def analyze_chapter(

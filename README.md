@@ -95,6 +95,24 @@ We built the `ComparisionPipeline/` directory as an evaluation sandbox to manual
 
 ---
 
+## 🎬 V3: Reel-Style Continuous Flow & Advanced Formatting (New Architecture)
+
+In **V3**, we introduced a complete narrative and formatting overhaul based on user feedback that the videos felt too rigid, contained boring historical trivia, and suffered from text overlapping/spilling off-screen.
+
+**What pushed us to this decision:**
+1. **Pacing:** The LLMs were strictly following a textbook-like chapter structure (Hook -> History -> Core Concept), making the videos feel disjointed rather than like a viral, fast-paced YouTube Reel.
+2. **Engagement:** History and dates were slowing down the "Wow!" factor of the math.
+3. **Manim Bugs:** The LLM was occasionally writing text over existing text, or making text too large for the camera frame.
+
+**How V3 Solves This:**
+1. **Purged History:** `deep_analyzer.py` was rewritten to completely ban ancient history and trivia, replacing it with `real_world_application` (e.g., video game physics) to keep kids hooked.
+2. **Continuous Flow Narrative:** `storyboard_planner.py`'s rigid 7-part arc was destroyed. It now uses a "Continuous Journey" directive. Every single scene MUST end with a transition phrase or cliffhanger question that leads perfectly into the next scene. 
+3. **Advanced Manim Constraints:** `manim_codegen.py` was updated with critical formatting rules:
+   - **No Off-Screen Text:** Enforced `.scale_to_fit_width(config.frame_width - 1)`.
+   - **No Overlapping Text:** Enforced clearing the screen (`self.clear()`) or stacking cleanly (`VGroup.arrange(DOWN)`) before introducing new concepts.
+
+---
+
 ## ⚙️ Execution Commands
 
 **Run the Full Main Pipeline:**

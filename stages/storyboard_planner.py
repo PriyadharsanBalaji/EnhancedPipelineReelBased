@@ -26,21 +26,18 @@ from config import (
 )
 
 
-STORYBOARD_SYSTEM = """You are an award-winning educational video director who creates thrilling, highly engaging math videos for kids and young teenagers.
+STORYBOARD_SYSTEM = """You are an award-winning YouTube educational director specializing in viral, fast-paced "Reel-Style" 3Blue1Brown animated videos.
+Your videos are incredibly engaging, completely continuous, and visually dynamic.
+The child watching should never be bored.
 
-You design DETAILED scene-by-scene storyboards for Manim-animated educational videos.
-Each scene is a self-contained Manim animation with specific objects, transformations, and timing.
+Your task: Convert the Deep Concept Analysis into a seamless, continuous Storyboard.
 
-Your videos are:
-  - Curiosity-driven: Start with a mind-blowing hook or paradox.
-  - Visually dynamic: Important numbers and concepts BULGE, wiggle, and glow to grab a child's attention.
-  - Pedagogically structured: Use analogies and magic-trick-like reveals before introducing formal math.
-  - Engaging: Warm, excited voiceover that speaks directly to a kid.
-  - NEVER boring: You completely ignore dry history or rote textbook definitions.
-  - 30-60 minutes long with ~30 seconds per scene
+CRITICAL DIRECTIVES:
+1. CONTINUITY: The video must flow as one continuous narrative journey. Every single scene MUST end with a transition phrase, a cliffhanger, or a leading question that connects perfectly into the very next scene. (e.g., "But what happens if we cut it in half? Let's see!"). DO NOT make it feel like disjointed textbook chapters.
+2. NO HISTORY: Do not include ANY history, dates, or trivia. Focus 100% on the mind-blowing conceptual math, intuitions, and real-world applications (like video games or space).
+3. FAST-PACED REEL STYLE: Ensure the visual descriptions are highly dynamic (bouncing, scaling, wiggling). The viewer should never stare at a static screen.
 
 CRITICAL: You must output ONLY valid JSON. No markdown, no commentary."""
-
 
 STORYBOARD_PROMPT = """Create a comprehensive Manim-animated video storyboard for this chapter.
 
@@ -115,23 +112,25 @@ Return this EXACT JSON structure:
     }}
 }}
 
-SECTION PLAN — follow this order:
-1. HOOK (2-4 scenes): Jaw-dropping visual or paradox to grab a kid's attention instantly.
-2. CORE INTUITION (15-25 scenes): Explain the concepts using everyday analogies (pizza, video games, space). NO dry definitions.
-3. THE AHA! MOMENT (5-10 scenes): Visually connect the intuition to the real math. Make key numbers bulge and glow!
-4. DEBUNKING MYTHS (4-6 scenes): Address misconceptions by visually smashing the wrong answer.
-5. MAGIC TRICKS (4-6 scenes): Show them cool shortcuts they can use in class to look like a genius.
-6. FUN FACTS (3-5 scenes): Mind-blowing connections to the real world.
-7. OUTRO (1-2 scenes): An enthusiastic sign-off.
+SECTION PLAN — follow this continuous flow:
+1. THE HOOK (1-3 scenes): A jaw-dropping visual, paradox, or real-world application to instantly grab attention.
+2. THE CONTINUOUS JOURNEY (35-65 scenes): Seamlessly flow through every concept in the analysis. For each concept:
+   - Introduce the Intuition (everyday analogies).
+   - Visually show the "Aha!" Moment and connect it to the real math.
+   - Instantly debunk a common myth by smashing it visually.
+   - Show a Magic Trick or Shortcut if applicable.
+   - END the scene with a cliffhanger or leading question that perfectly bridges into the next concept!
+3. THE OUTRO (1-2 scenes): An enthusiastic sign-off.
 
 CRITICAL RULES:
+- CONTINUITY IS MANDATORY. End every scene's narration by leading perfectly into the next scene. No hard cuts.
 - EVERY scene must have specific manim_intent with real Manim class names.
 - ALWAYS use ScaleInPlace(..., scale_factor=1.5), Wiggle(), or Circumscribe() to make important numbers/text 'bulge' or pop out.
 - narration_text is the COMPLETE voiceover script — not a summary. Must sound excited and kid-friendly!
-- NO HISTORY SECTIONS. Remove all ancient history.
+- NO HISTORY SECTIONS. Remove all ancient history and dates.
 - Include ALL concepts from the analysis — don't skip any.
-- Each scene ~30 seconds of content.
-- Total should be {target_scenes} scenes across all sections."""
+- Each scene ~20-30 seconds of content.
+- Total should be {target_scenes} scenes across the continuous flow."""
 
 
 def plan_storyboard(

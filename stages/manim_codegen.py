@@ -39,10 +39,12 @@ RULES:
 7. CRITICAL: MAKE IT DYNAMIC! If there is an important number, equation, or text, make it "bulge" and look nice! Use `self.play(ScaleInPlace(obj, scale_factor=1.5))` followed by scaling it back, or use `self.play(Wiggle(obj))`, or `Circumscribe(obj)`. DO NOT just leave static text on screen. Kids get bored easily!
 8. Set background color in construct: self.camera.background_color = "#1a1a2e"
 9. Avoid syntax errors, ensure all parentheses (), brackets [], and quotes "" are perfectly matched.
-10. Manim coordinates MUST be 3D: [x, y, 0] or np.array([x, y, 0]). NEVER pass 2D points [x, y].
-11. Polygon vertices: Use polygon.get_vertices()[i]. NEVER call .get_edge(i).
-12. NEVER load external image files or ImageMobject("path.jpg"). Always use pure vector Mobjects (Rectangle, Text, etc.).
-13. Output ONLY executable Python code inside ```python ``` blocks."""
+10. PREVENT OFF-SCREEN TEXT: ALWAYS wrap long text into multiple lines or use `.scale_to_fit_width(config.frame_width - 1)` so it never spills off the screen!
+11. PREVENT OVERLAPPING: NEVER write new text on top of old text! ALWAYS clear the screen using `self.clear()` or `self.play(FadeOut(Group(*self.mobjects)))` before introducing a totally new concept, or use `VGroup(text1, text2).arrange(DOWN)` to stack them cleanly.
+12. Manim coordinates MUST be 3D: [x, y, 0] or np.array([x, y, 0]). NEVER pass 2D points [x, y].
+13. Polygon vertices: Use polygon.get_vertices()[i]. NEVER call .get_edge(i).
+14. NEVER load external image files or ImageMobject("path.jpg"). Always use pure vector Mobjects (Rectangle, Text, etc.).
+15. Output ONLY executable Python code inside ```python ``` blocks."""
 
 
 MANIM_PROMPT = """Generate a Manim scene for this educational animation:
